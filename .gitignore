@@ -1,0 +1,6 @@
+# ignore Visual Studio files
+bin/
+obj/
+packages/
+ReleaseLib/
+.vs/
