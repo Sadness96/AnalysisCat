@@ -66,7 +66,7 @@ namespace AnalysisCat.Helper.Utils
 
         private static Dictionary<CatType, List<CatConfigFileModel>> _dicConfigCatFileT;
         /// <summary>
-        /// Cat 配置参考文档（）
+        /// Cat 配置参考文档(泛型数据)
         /// </summary>
         public static Dictionary<CatType, List<CatConfigFileModel>> DicConfigCatFileT
         {

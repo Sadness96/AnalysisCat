@@ -13,6 +13,7 @@ namespace AnalysisCat.Helper.Models
     {
         Cat020,
         Cat021,
-        Cat062
+        Cat062,
+        unknown
     }
 }
