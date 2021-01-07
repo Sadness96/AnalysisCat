@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AnalysisCat.Helper.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace AnalysisCat
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var v = GetCatConfigFile.DicConfigCatFileT;
         }
     }
 }
