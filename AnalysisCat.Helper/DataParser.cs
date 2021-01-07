@@ -91,6 +91,9 @@ namespace AnalysisCat.Helper
             // 获取数据长度
             catDataModel.DataStartLength = byteCat[1];
             catDataModel.DataStopLength = byteCat[2];
+            // 解析出标识符开关所占的字节
+            byte[] byteFspecBytes = GetFspecBytes(byteCat);
+
             // 分析数据
             var vConfigCatFileT = GetCatConfigFile.DicConfigCatFileT[catDataModel.CatDataType];
             if (vConfigCatFileT != null && vConfigCatFileT.Count >= 1)
@@ -98,13 +101,57 @@ namespace AnalysisCat.Helper
                 List<CatDataItemModel> catDataItemModels = new List<CatDataItemModel>();
                 foreach (var vDataItem in vConfigCatFileT)
                 {
+                    CatDataItemModel catDataItemModel = new CatDataItemModel();
+                    catDataItemModel.DataItemInfo = vDataItem;
                     // 拆分为二进制
 
-                    // 解析为明文数据
+
+                    catDataItemModels.Add(catDataItemModel);
                 }
                 catDataModel.CatDataItem = catDataItemModels;
             }
             return catDataModel;
+        }
+
+        /// <summary>
+        /// 解析出标识符所占的字节
+        /// </summary>
+        /// <param name="dates"></param>
+        /// <returns></returns>
+        private static byte[] GetFspecBytes(byte[] dates)
+        {
+            int count = 3;
+            byte[] fspecbytes;
+            //如果下一个字节是标识符
+            while (IsMoreFspec(dates[count]))
+            {
+                count++;
+            }
+            //确定标识符字节数
+            fspecbytes = new byte[count - 2];
+            Array.Copy(dates, 3, fspecbytes, 0, fspecbytes.Length);
+            return fspecbytes;
+        }
+
+        /// <summary>
+        /// 判断下一个字节是否是符号字节
+        /// </summary>
+        /// <param name="temp"></param>
+        /// <returns></returns>
+        private static bool IsMoreFspec(byte temp)
+        {
+            byte[] tempbytes = new byte[4];
+            temp <<= 7;
+            temp >>= 7;
+            tempbytes[0] = temp;
+            if (BitConverter.ToInt32(tempbytes, 0) == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
