@@ -1,2 +1,8 @@
-cat020-asterix-mlt-messages-part-14.xlsx
+Cat020pt14ed19.xlsx
 https://www.eurocontrol.int/sites/default/files/2019-06/cat020-asterix-mlt-messages-part-14.pdf
+
+Cat021pt12ed24.xlsx
+https://www.eurocontrol.int/sites/default/files/content/documents/nm/asterix/20150615-asterix-adsbtr-cat021-part12-v2.4.pdf
+
+Cat062p9ed118.xlsx
+https://www.eurocontrol.int/sites/default/files/content/documents/nm/asterix/cat062p9ed118.pdf
