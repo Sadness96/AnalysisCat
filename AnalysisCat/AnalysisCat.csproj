@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AnalysisCat.Helper\AnalysisCat.Helper.csproj">
+      <Project>{4e55de9b-5059-4a46-80dc-7ff44a309af4}</Project>
+      <Name>AnalysisCat.Helper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
