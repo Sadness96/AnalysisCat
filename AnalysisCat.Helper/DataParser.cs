@@ -108,7 +108,7 @@ namespace AnalysisCat.Helper
                 byte[] byteFspecBytes = GetFspecBytes(byteCat);
                 for (int iByteFspecBytes = 0; iByteFspecBytes < byteFspecBytes.Length; iByteFspecBytes++)
                 {
-                    var vByteItem2 = Convert.ToString(byteFspecBytes[iByteFspecBytes], 2);
+                    var vByteItem2 = Convert.ToString(byteFspecBytes[iByteFspecBytes], 2).PadLeft(8, '0');
                     for (int iByteItem2 = 0; iByteItem2 < vByteItem2.Length; iByteItem2++)
                     {
                         if (int.Parse(vByteItem2[iByteItem2].ToString()) == 1)
@@ -132,7 +132,7 @@ namespace AnalysisCat.Helper
                     if (item.DataItemInfo.Length.Contains("+"))
                     {
                         int iLength = int.Parse(item.DataItemInfo.Length.Substring(0, item.DataItemInfo.Length.Length - 1));
-                        int iFspecLength = GetFspecLength(byteDate, iLength);
+                        int iFspecLength = GetFspecLength(byteDate, iByteNum + iLength - 1) - iByteNum + 1;
                         byte[] bytes = new byte[iFspecLength];
                         Array.Copy(byteDate, iByteNum, bytes, 0, bytes.Length);
                         item.CatByteData = bytes;
