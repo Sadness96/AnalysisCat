@@ -43,6 +43,11 @@ namespace AnalysisCat.Helper.Models
         public CatConfigFileModel DataItemInfo { get; set; }
 
         /// <summary>
+        /// 是否启用
+        /// </summary>
+        public bool IsEnable { get; set; } = false;
+
+        /// <summary>
         /// 数据项二进制数据
         /// </summary>
         public byte[] CatByteData { get; set; }

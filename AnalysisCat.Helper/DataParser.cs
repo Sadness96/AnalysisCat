@@ -91,23 +91,65 @@ namespace AnalysisCat.Helper
             // 获取数据长度
             catDataModel.DataStartLength = byteCat[1];
             catDataModel.DataStopLength = byteCat[2];
-            // 解析出标识符开关所占的字节
-            byte[] byteFspecBytes = GetFspecBytes(byteCat);
 
             // 分析数据
             var vConfigCatFileT = GetCatConfigFile.DicConfigCatFileT[catDataModel.CatDataType];
             if (vConfigCatFileT != null && vConfigCatFileT.Count >= 1)
             {
+                // 根据配置文件创建数据模型
                 List<CatDataItemModel> catDataItemModels = new List<CatDataItemModel>();
                 foreach (var vDataItem in vConfigCatFileT)
                 {
                     CatDataItemModel catDataItemModel = new CatDataItemModel();
                     catDataItemModel.DataItemInfo = vDataItem;
-                    // 拆分为二进制
-
-
                     catDataItemModels.Add(catDataItemModel);
                 }
+                // 解析出标识符开关所占的字节
+                byte[] byteFspecBytes = GetFspecBytes(byteCat);
+                for (int iByteFspecBytes = 0; iByteFspecBytes < byteFspecBytes.Length; iByteFspecBytes++)
+                {
+                    var vByteItem2 = Convert.ToString(byteFspecBytes[iByteFspecBytes], 2);
+                    for (int iByteItem2 = 0; iByteItem2 < vByteItem2.Length; iByteItem2++)
+                    {
+                        if (int.Parse(vByteItem2[iByteItem2].ToString()) == 1)
+                        {
+                            int iIndexes = iByteFspecBytes * 8 + iByteItem2;
+                            catDataItemModels[iIndexes].IsEnable = true;
+                        }
+                    }
+                }
+                // 创建数据字节
+                byte[] byteDate = new byte[byteCat.Length - 3 - byteFspecBytes.Length];
+                Array.Copy(byteCat, 3 + byteFspecBytes.Length, byteDate, 0, byteDate.Length);
+                int iByteNum = 0;
+                foreach (var item in catDataItemModels.Where(o => o.IsEnable))
+                {
+                    int itemByteLength;
+                    if (item.DataItemInfo.Length == null || item.DataItemInfo.Length.Equals("-") || string.IsNullOrEmpty(item.DataItemInfo.Length) || item.DataItemInfo.Length.Contains("N"))
+                    {
+                        continue;
+                    }
+                    if (item.DataItemInfo.Length.Contains("+"))
+                    {
+                        int iLength = int.Parse(item.DataItemInfo.Length.Substring(0, item.DataItemInfo.Length.Length - 1));
+                        int iFspecLength = GetFspecLength(byteDate, iLength);
+                        byte[] bytes = new byte[iFspecLength];
+                        Array.Copy(byteDate, iByteNum, bytes, 0, bytes.Length);
+                        item.CatByteData = bytes;
+                        iByteNum += iFspecLength;
+                        continue;
+                    }
+                    int.TryParse(item.DataItemInfo.Length, out itemByteLength);
+                    if (itemByteLength >= 1)
+                    {
+                        byte[] bytes = new byte[itemByteLength];
+                        Array.Copy(byteDate, iByteNum, bytes, 0, bytes.Length);
+                        item.CatByteData = bytes;
+                        iByteNum += itemByteLength;
+                        continue;
+                    }
+                }
+
                 catDataModel.CatDataItem = catDataItemModels;
             }
             return catDataModel;
@@ -131,6 +173,22 @@ namespace AnalysisCat.Helper
             fspecbytes = new byte[count - 2];
             Array.Copy(dates, 3, fspecbytes, 0, fspecbytes.Length);
             return fspecbytes;
+        }
+
+        /// <summary>
+        /// 获取占用字节长度
+        /// </summary>
+        /// <param name="dates"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        private static int GetFspecLength(byte[] dates, int count)
+        {
+            //如果下一个字节是标识符
+            while (IsMoreFspec(dates[count]))
+            {
+                count++;
+            }
+            return count;
         }
 
         /// <summary>
