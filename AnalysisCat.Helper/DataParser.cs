@@ -17,7 +17,7 @@ namespace AnalysisCat.Helper
         /// <summary>
         /// 分析数据
         /// </summary>
-        public static void Analysis(string data)
+        public static object Analysis(string data)
         {
             // 判断数据有效性
             if (!string.IsNullOrEmpty(data) && IsAsterix(data))
@@ -27,9 +27,10 @@ namespace AnalysisCat.Helper
                 if (vCatByteData != null && vCatByteData.Length >= 10)
                 {
                     // 解析数据
-                    var vAnalysisData = AnalysisData(vCatByteData);
+                    return AnalysisData(vCatByteData);
                 }
             }
+            return null;
         }
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace AnalysisCat.Helper
                         }
                     }
                 }
-                // 创建数据字节
+                // 拆分数据字节
                 byte[] byteDate = new byte[byteCat.Length - 3 - byteFspecBytes.Length];
                 Array.Copy(byteCat, 3 + byteFspecBytes.Length, byteDate, 0, byteDate.Length);
                 int iByteNum = 0;
@@ -147,6 +148,16 @@ namespace AnalysisCat.Helper
                         item.CatByteData = bytes;
                         iByteNum += itemByteLength;
                         continue;
+                    }
+                }
+                // 解析字段
+                foreach (var item in catDataItemModels.Where(o => o.IsEnable && o.CatByteData != null && o.CatByteData.Length >= 1))
+                {
+                    var parameters = new object[] { item.CatByteData };
+                    var vResultData = ReflectHelper.RunMethod(catDataModel.CatDataType.ToString(), item.DataItemInfo.DataItem.Replace("/", "_"), parameters);
+                    if (vResultData != null)
+                    {
+                        item.CatAnalysisData = vResultData;
                     }
                 }
 
