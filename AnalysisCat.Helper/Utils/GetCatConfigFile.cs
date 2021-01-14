@@ -27,7 +27,7 @@ namespace AnalysisCat.Helper.Utils
                     _dicConfigCatFilePath = new Dictionary<CatType, string>()
                     {
                         { CatType.Cat020,"Cat020pt14ed19.xlsx"},
-                        { CatType.Cat021,"Cat021pt12ed24.xlsx"},
+                        { CatType.Cat021,"Cat021p12ed026.xlsx"},
                         { CatType.Cat062,"Cat062p9ed118.xlsx"}
                     };
                 }

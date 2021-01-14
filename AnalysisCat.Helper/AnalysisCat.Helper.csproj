@@ -90,6 +90,9 @@
     <None Include="CatConfig\Cat020pt14ed19.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="CatConfig\Cat021p12ed026.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="CatConfig\Cat021pt12ed24.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
