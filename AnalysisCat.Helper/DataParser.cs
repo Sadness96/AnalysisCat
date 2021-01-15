@@ -17,7 +17,7 @@ namespace AnalysisCat.Helper
         /// <summary>
         /// 分析数据
         /// </summary>
-        public static object Analysis(string data)
+        public static CatDataModel Analysis(string data)
         {
             // 判断数据有效性
             if (!string.IsNullOrEmpty(data) && IsAsterix(data))
@@ -30,7 +30,7 @@ namespace AnalysisCat.Helper
                     return AnalysisData(vCatByteData);
                 }
             }
-            return null;
+            return new CatDataModel() { CatDataType = CatType.unknown };
         }
 
         /// <summary>

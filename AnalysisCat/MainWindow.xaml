@@ -13,17 +13,18 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <TextBlock Text="Asterix Data:"/>
-            <TextBox x:Name="TBAsterixData" Margin="0,20,0,0" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
+            <TextBox x:Name="TBAsterixData" Margin="0,20,0,0" TextWrapping="NoWrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextChanged="TBAsterixData_TextChanged"/>
         </Grid>
         <Grid Grid.Row="1">
-            <DataGrid x:Name="DGAsterixData" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single">
+            <TextBlock Text="Analysis Data:"/>
+            <DataGrid x:Name="DGAsterixData" Margin="0,20,0,0" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="AsterixData" Width="150" Binding="{Binding SourceFieldName}"/>
-                    <DataGridTextColumn Header="State" Width="80" Binding="{Binding TargetFieldName}"/>
-                    <DataGridTextColumn Header="CatType" Width="80" Binding="{Binding TargetFieldName}"/>
-                    <DataGridTextColumn Header="StartLength" Width="80" Binding="{Binding FieldLength}"/>
-                    <DataGridTextColumn Header="StopLength" Width="80" Binding="{Binding DecimalLength}"/>
-                    <DataGridTextColumn Header="AnalysisData" Width="*" Binding="{Binding DecimalLength}"/>
+                    <DataGridTextColumn Header="AsterixData" Width="150" Binding="{Binding AsterixData}"/>
+                    <DataGridTextColumn Header="AsterixState" Width="80" Binding="{Binding AsterixState}"/>
+                    <DataGridTextColumn Header="CatDataType" Width="80" Binding="{Binding CatDataType}"/>
+                    <DataGridTextColumn Header="StartLength" Width="80" Binding="{Binding StartLength}"/>
+                    <DataGridTextColumn Header="StopLength" Width="80" Binding="{Binding StopLength}"/>
+                    <DataGridTextColumn Header="AnalysisData" Width="*" Binding="{Binding AnalysisData}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
