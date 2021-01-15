@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnalysisCat"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="AsterixAnalysis" Height="625" Width="1000">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Text="Asterix Data:"/>
+            <TextBox x:Name="TBAsterixData" Margin="0,20,0,0" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <DataGrid x:Name="DGAsterixData" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="AsterixData" Width="150" Binding="{Binding SourceFieldName}"/>
+                    <DataGridTextColumn Header="State" Width="80" Binding="{Binding TargetFieldName}"/>
+                    <DataGridTextColumn Header="CatType" Width="80" Binding="{Binding TargetFieldName}"/>
+                    <DataGridTextColumn Header="StartLength" Width="80" Binding="{Binding FieldLength}"/>
+                    <DataGridTextColumn Header="StopLength" Width="80" Binding="{Binding DecimalLength}"/>
+                    <DataGridTextColumn Header="AnalysisData" Width="*" Binding="{Binding DecimalLength}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>
