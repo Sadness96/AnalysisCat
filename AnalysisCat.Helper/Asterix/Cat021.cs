@@ -16,7 +16,7 @@ namespace AnalysisCat.Helper.Asterix
         public static string I021_030(byte[] byteData)
         {
             //将几个独立字节合并为一个字节
-            uint rhs = ((uint)byteData[0] << 16) + ((uint)byteData[1] << 8) + (uint)byteData[2];
+            uint rhs = ((uint)byteData[0] << 16) + ((uint)byteData[1] << 8) + byteData[2];
             //总秒数
             uint value0 = rhs / 128;
             //小时数
@@ -84,7 +84,7 @@ namespace AnalysisCat.Helper.Asterix
         {
             string res = "";
             //将6个独立字节合并为一个字节
-            long rhs = ((long)byteData[0] << 40) + ((long)byteData[1] << 32) + ((long)byteData[2] << 24) + ((long)byteData[3] << 16) + ((long)byteData[4] << 8) + (long)byteData[5];
+            long rhs = ((long)byteData[0] << 40) + ((long)byteData[1] << 32) + ((long)byteData[2] << 24) + ((long)byteData[3] << 16) + ((long)byteData[4] << 8) + byteData[5];
             //取出第42~47位
             long value0 = (rhs >> 42) & 63;
             //取出新的二进制数的第5位，并判断为0还是1.

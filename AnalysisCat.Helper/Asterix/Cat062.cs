@@ -17,7 +17,7 @@ namespace AnalysisCat.Helper.Asterix
         public static string I062_070(byte[] byteData)
         {
             //将几个独立字节合并为一个字节
-            uint rhs = ((uint)byteData[0] << 16) + ((uint)byteData[1] << 8) + (uint)byteData[2];
+            uint rhs = ((uint)byteData[0] << 16) + ((uint)byteData[1] << 8) + byteData[2];
             //总秒数
             uint value0 = rhs / 128;
             //小时数

@@ -142,7 +142,7 @@ namespace AnalysisCat.Helper.Asterix
         public static double I020_110(byte[] byteData)
         {
             string strByteData = byteData[0].ToString("X2") + byteData[1].ToString("X2");
-            double dByteData = (double)Convert.ToInt32(strByteData, 16);
+            double dByteData = Convert.ToInt32(strByteData, 16);
 
             if (Convert.ToString(byteData[0], 2).Substring(0, 1).Equals("1"))
             {
