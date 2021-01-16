@@ -66,7 +66,7 @@ namespace AnalysisCat.Helper.Asterix
         }
 
         /// <summary>
-        /// 解析(I062_070)经纬度坐标
+        /// 解析(I062_105)经纬度坐标
         /// </summary>
         /// <param name="byteData">二进制数据</param>
         /// <returns></returns>

@@ -107,6 +107,7 @@ namespace AnalysisCat.Helper
                 }
                 // 解析出标识符开关所占的字节
                 byte[] byteFspecBytes = GetFspecBytes(byteCat);
+                catDataModel.FspecBytes = byteFspecBytes;
                 for (int iByteFspecBytes = 0; iByteFspecBytes < byteFspecBytes.Length; iByteFspecBytes++)
                 {
                     var vByteItem2 = Convert.ToString(byteFspecBytes[iByteFspecBytes], 2).PadLeft(8, '0');
