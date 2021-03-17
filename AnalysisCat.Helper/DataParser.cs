@@ -132,7 +132,7 @@ namespace AnalysisCat.Helper
                     }
                     if (item.DataItemInfo.Length.Contains("+"))
                     {
-                        int iLength = int.Parse(item.DataItemInfo.Length.Substring(0, item.DataItemInfo.Length.Length - 1));
+                        int iLength = int.Parse(item.DataItemInfo.Length.Substring(0, item.DataItemInfo.Length.IndexOf("+")));
                         int iFspecLength = GetFspecLength(byteDate, iByteNum + iLength - 1) - iByteNum + 1;
                         byte[] bytes = new byte[iFspecLength];
                         Array.Copy(byteDate, iByteNum, bytes, 0, bytes.Length);
