@@ -16,6 +16,10 @@ namespace AnalysisCat.Helper.Utils
         /// <summary>
         /// 运行方法
         /// </summary>
+        /// <param name="strClassName">类名</param>
+        /// <param name="strMethodName">方法名</param>
+        /// <param name="parameters">参数</param>
+        /// <returns>返回结果</returns>
         public static object RunMethod(string strClassName, string strMethodName, object[] parameters)
         {
             try

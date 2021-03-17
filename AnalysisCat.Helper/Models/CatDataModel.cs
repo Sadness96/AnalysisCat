@@ -27,6 +27,11 @@ namespace AnalysisCat.Helper.Models
         public int DataStopLength { get; set; }
 
         /// <summary>
+        /// 开关字节
+        /// </summary>
+        public byte[] FspecBytes { get; set; }
+
+        /// <summary>
         /// 数据项信息
         /// </summary>
         public List<CatDataItemModel> CatDataItem { get; set; }
