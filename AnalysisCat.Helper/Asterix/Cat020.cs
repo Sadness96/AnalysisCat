@@ -90,12 +90,12 @@ namespace AnalysisCat.Helper.Asterix
             double[] relDataArray = new double[2];
             if (byteData.Length == 8)
             {
-                // 16进制转成10进制（4位一转）
-                string xCoordinate10 = byteData[0].ToString("X2") + byteData[1].ToString("X2") + byteData[2].ToString("X2") + byteData[3].ToString("X2");
-                string yCoordinate10 = byteData[4].ToString("X2") + byteData[5].ToString("X2") + byteData[6].ToString("X2") + byteData[7].ToString("X2");
-                // 10进制计算规则（xCoordinate10 * 180 /2^25）
-                relDataArray[0] = double.Parse(Convert.ToInt32(xCoordinate10, 16).ToString()) * 180 / 33554432;
-                relDataArray[1] = double.Parse(Convert.ToInt32(yCoordinate10, 16).ToString()) * 180 / 33554432;
+                // 10进制转成16进制（4位一转）
+                string xCoordinate16 = byteData[0].ToString("X2") + byteData[1].ToString("X2") + byteData[2].ToString("X2") + byteData[3].ToString("X2");
+                string yCoordinate16 = byteData[4].ToString("X2") + byteData[5].ToString("X2") + byteData[6].ToString("X2") + byteData[7].ToString("X2");
+                // 10进制计算规则（xCoordinate16 * 180 /2^25）
+                relDataArray[0] = double.Parse(Convert.ToInt32(xCoordinate16, 16).ToString()) * 180 / 33554432;
+                relDataArray[1] = double.Parse(Convert.ToInt32(yCoordinate16, 16).ToString()) * 180 / 33554432;
                 return relDataArray;
             }
             return null;
