@@ -116,7 +116,10 @@ namespace AnalysisCat.Helper
                         if (int.Parse(vByteItem2[iByteItem2].ToString()) == 1)
                         {
                             int iIndexes = iByteFspecBytes * 8 + iByteItem2;
-                            catDataItemModels[iIndexes].IsEnable = true;
+                            if (catDataItemModels.Count() > iIndexes)
+                            {
+                                catDataItemModels[iIndexes].IsEnable = true;
+                            }
                         }
                     }
                 }
