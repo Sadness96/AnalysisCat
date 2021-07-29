@@ -72,7 +72,7 @@ namespace AnalysisCat.Helper.Asterix
         }
 
         /// <summary>
-        /// 解析(I062_105)经纬度坐标
+        /// 计算位置坐标(WGS-84中)项(I021/131)对应的值
         /// </summary>
         /// <param name="byteData">二进制数据</param>
         /// <returns></returns>
