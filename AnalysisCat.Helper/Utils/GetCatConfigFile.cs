@@ -28,7 +28,8 @@ namespace AnalysisCat.Helper.Utils
                     {
                         { CatType.Cat020,"Cat020pt14ed19.xlsx"},
                         { CatType.Cat021,"Cat021pt12ed24.xlsx"},
-                        { CatType.Cat062,"Cat062p9ed118.xlsx"}
+                        { CatType.Cat062,"Cat062p9ed118.xlsx"},
+                        { CatType.Cat010,"Cat010p7ed11.xlsx"}
                     };
                 }
                 return _dicConfigCatFilePath;

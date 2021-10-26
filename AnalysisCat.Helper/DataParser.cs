@@ -41,7 +41,7 @@ namespace AnalysisCat.Helper
         private static bool IsAsterix(string data)
         {
             //Cat 16 进制数据开头
-            List<string> listCat16X = new List<string>() { "14", "15", "3E" };
+            List<string> listCat16X = new List<string>() { "14", "15", "3E", "0A" };
             //判断是否符合标准数据
             if (data.Length >= 10)
             {
@@ -87,87 +87,95 @@ namespace AnalysisCat.Helper
                 case 20: catDataModel.CatDataType = CatType.Cat020; break;
                 case 21: catDataModel.CatDataType = CatType.Cat021; break;
                 case 62: catDataModel.CatDataType = CatType.Cat062; break;
+                case 10: catDataModel.CatDataType = CatType.Cat010; break;
                 default: catDataModel.CatDataType = CatType.unknown; break;
             }
             // 获取数据长度
             catDataModel.DataStartLength = byteCat[1];
             catDataModel.DataStopLength = byteCat[2];
 
-            // 分析数据
-            var vConfigCatFileT = GetCatConfigFile.DicConfigCatFileT[catDataModel.CatDataType];
-            if (vConfigCatFileT != null && vConfigCatFileT.Count >= 1)
+            try
             {
-                // 根据配置文件创建数据模型
-                List<CatDataItemModel> catDataItemModels = new List<CatDataItemModel>();
-                foreach (var vDataItem in vConfigCatFileT)
+                // 分析数据
+                var vConfigCatFileT = GetCatConfigFile.DicConfigCatFileT[catDataModel.CatDataType];
+                if (vConfigCatFileT != null && vConfigCatFileT.Count >= 1)
                 {
-                    CatDataItemModel catDataItemModel = new CatDataItemModel();
-                    catDataItemModel.DataItemInfo = vDataItem;
-                    catDataItemModels.Add(catDataItemModel);
-                }
-                // 解析出标识符开关所占的字节
-                byte[] byteFspecBytes = GetFspecBytes(byteCat);
-                catDataModel.FspecBytes = byteFspecBytes;
-                for (int iByteFspecBytes = 0; iByteFspecBytes < byteFspecBytes.Length; iByteFspecBytes++)
-                {
-                    var vByteItem2 = Convert.ToString(byteFspecBytes[iByteFspecBytes], 2).PadLeft(8, '0');
-                    for (int iByteItem2 = 0; iByteItem2 < vByteItem2.Length; iByteItem2++)
+                    // 根据配置文件创建数据模型
+                    List<CatDataItemModel> catDataItemModels = new List<CatDataItemModel>();
+                    foreach (var vDataItem in vConfigCatFileT)
                     {
-                        if (int.Parse(vByteItem2[iByteItem2].ToString()) == 1)
+                        CatDataItemModel catDataItemModel = new CatDataItemModel();
+                        catDataItemModel.DataItemInfo = vDataItem;
+                        catDataItemModels.Add(catDataItemModel);
+                    }
+                    // 解析出标识符开关所占的字节
+                    byte[] byteFspecBytes = GetFspecBytes(byteCat);
+                    catDataModel.FspecBytes = byteFspecBytes;
+                    for (int iByteFspecBytes = 0; iByteFspecBytes < byteFspecBytes.Length; iByteFspecBytes++)
+                    {
+                        var vByteItem2 = Convert.ToString(byteFspecBytes[iByteFspecBytes], 2).PadLeft(8, '0');
+                        for (int iByteItem2 = 0; iByteItem2 < vByteItem2.Length; iByteItem2++)
                         {
-                            int iIndexes = iByteFspecBytes * 8 + iByteItem2;
-                            if (catDataItemModels.Count() > iIndexes)
+                            if (int.Parse(vByteItem2[iByteItem2].ToString()) == 1)
                             {
-                                catDataItemModels[iIndexes].IsEnable = true;
+                                int iIndexes = iByteFspecBytes * 8 + iByteItem2;
+                                if (catDataItemModels.Count() > iIndexes)
+                                {
+                                    catDataItemModels[iIndexes].IsEnable = true;
+                                }
                             }
                         }
                     }
-                }
-                // 拆分数据字节
-                byte[] byteDate = new byte[byteCat.Length - 3 - byteFspecBytes.Length];
-                Array.Copy(byteCat, 3 + byteFspecBytes.Length, byteDate, 0, byteDate.Length);
-                int iByteNum = 0;
-                foreach (var item in catDataItemModels.Where(o => o.IsEnable))
-                {
-                    int itemByteLength;
-                    if (item.DataItemInfo.Length == null || item.DataItemInfo.Length.Equals("-") || string.IsNullOrEmpty(item.DataItemInfo.Length) || item.DataItemInfo.Length.Contains("N"))
+                    // 拆分数据字节
+                    byte[] byteDate = new byte[byteCat.Length - 3 - byteFspecBytes.Length];
+                    Array.Copy(byteCat, 3 + byteFspecBytes.Length, byteDate, 0, byteDate.Length);
+                    int iByteNum = 0;
+                    foreach (var item in catDataItemModels.Where(o => o.IsEnable))
                     {
-                        continue;
+                        int itemByteLength;
+                        if (item.DataItemInfo.Length == null || item.DataItemInfo.Length.Equals("-") || string.IsNullOrEmpty(item.DataItemInfo.Length) || item.DataItemInfo.Length.Contains("N"))
+                        {
+                            continue;
+                        }
+                        if (item.DataItemInfo.Length.Contains("+"))
+                        {
+                            int iLength = int.Parse(item.DataItemInfo.Length.Substring(0, item.DataItemInfo.Length.IndexOf("+")));
+                            int iFspecLength = GetFspecLength(byteDate, iByteNum + iLength - 1) - iByteNum + 1;
+                            byte[] bytes = new byte[iFspecLength];
+                            Array.Copy(byteDate, iByteNum, bytes, 0, bytes.Length);
+                            item.CatByteData = bytes;
+                            iByteNum += iFspecLength;
+                            continue;
+                        }
+                        int.TryParse(item.DataItemInfo.Length, out itemByteLength);
+                        if (itemByteLength >= 1)
+                        {
+                            byte[] bytes = new byte[itemByteLength];
+                            Array.Copy(byteDate, iByteNum, bytes, 0, bytes.Length);
+                            item.CatByteData = bytes;
+                            iByteNum += itemByteLength;
+                            continue;
+                        }
                     }
-                    if (item.DataItemInfo.Length.Contains("+"))
+                    // 解析字段
+                    foreach (var item in catDataItemModels.Where(o => o.IsEnable && o.CatByteData != null && o.CatByteData.Length >= 1))
                     {
-                        int iLength = int.Parse(item.DataItemInfo.Length.Substring(0, item.DataItemInfo.Length.IndexOf("+")));
-                        int iFspecLength = GetFspecLength(byteDate, iByteNum + iLength - 1) - iByteNum + 1;
-                        byte[] bytes = new byte[iFspecLength];
-                        Array.Copy(byteDate, iByteNum, bytes, 0, bytes.Length);
-                        item.CatByteData = bytes;
-                        iByteNum += iFspecLength;
-                        continue;
+                        var parameters = new object[] { item.CatByteData };
+                        var vResultData = ReflectHelper.RunMethod(catDataModel.CatDataType.ToString(), item.DataItemInfo.DataItem.Replace("/", "_"), parameters);
+                        if (vResultData != null)
+                        {
+                            item.CatAnalysisData = vResultData;
+                        }
                     }
-                    int.TryParse(item.DataItemInfo.Length, out itemByteLength);
-                    if (itemByteLength >= 1)
-                    {
-                        byte[] bytes = new byte[itemByteLength];
-                        Array.Copy(byteDate, iByteNum, bytes, 0, bytes.Length);
-                        item.CatByteData = bytes;
-                        iByteNum += itemByteLength;
-                        continue;
-                    }
-                }
-                // 解析字段
-                foreach (var item in catDataItemModels.Where(o => o.IsEnable && o.CatByteData != null && o.CatByteData.Length >= 1))
-                {
-                    var parameters = new object[] { item.CatByteData };
-                    var vResultData = ReflectHelper.RunMethod(catDataModel.CatDataType.ToString(), item.DataItemInfo.DataItem.Replace("/", "_"), parameters);
-                    if (vResultData != null)
-                    {
-                        item.CatAnalysisData = vResultData;
-                    }
-                }
 
-                catDataModel.CatDataItem = catDataItemModels;
+                    catDataModel.CatDataItem = catDataItemModels;
+                }
+                return catDataModel;
             }
-            return catDataModel;
+            catch (Exception ex)
+            {
+                return catDataModel;
+            }
         }
 
         /// <summary>

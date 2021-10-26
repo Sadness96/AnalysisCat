@@ -90,6 +90,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="CatConfig\Cat010p7ed11.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="CatConfig\Cat020pt14ed19.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

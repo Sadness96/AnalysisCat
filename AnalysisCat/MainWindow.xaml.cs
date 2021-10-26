@@ -39,6 +39,8 @@ namespace AnalysisCat
             stringBuilder.Append("3E0034BB7D25040203000E584F003806E501460641FD2601B70D4A000D33B3C37E2080780CCB000601000550000028002A003E04");
             stringBuilder.Append("\r\n");
             stringBuilder.Append("15 00 5b ff 9f bb 5b c3 22 16 82 00 0e 55 02 a8 b0 d7 13 f1 b1 54 fa 1b 09 f8 d8 f2 2a 7d 0d cd a8 b0 5d 78 09 e3 a8 b0 d7 2b a2 5e d1 a8 b0 5d 2e c8 41 f6 0f 01 01 a0 02 07 fd 03 6c 00 01 3d 06 9a 9e fd a8 b0 d8 0d 33 b3 e3 7d 60 00 00 aa 7d 81 c0 00 00 00 00 00 00 00 00");
+            stringBuilder.Append("\r\n");
+            stringBuilder.Append("0A 00 33 EF BF BD 3F 31 EF BF BD 16 00 01 25 03 00 1A EF BF BD 7B 10 1A EF BF BD 06 50 EE B9 BA 0B 79 18 37 07 EF BF BD 00 00 EF BF BD EF BF BD 3A 00 3B");
             TBAsterixData.Text = stringBuilder.ToString();
         }
 
@@ -71,11 +73,14 @@ namespace AnalysisCat
                         vViewAsterixModel.StopLength = vAnalysis.DataStopLength;
                         //拼接识别到的数据
                         Dictionary<string, object> dicData = new Dictionary<string, object>();
-                        foreach (var itemCatDataItem in vAnalysis.CatDataItem.Where(o => o.CatAnalysisData != null))
+                        if (vAnalysis.CatDataItem != null)
                         {
-                            dicData.Add(itemCatDataItem.DataItemInfo.DataItem, itemCatDataItem.CatAnalysisData);
+                            foreach (var itemCatDataItem in vAnalysis.CatDataItem.Where(o => o.CatAnalysisData != null))
+                            {
+                                dicData.Add(itemCatDataItem.DataItemInfo.DataItem, itemCatDataItem.CatAnalysisData);
+                            }
+                            vViewAsterixModel.AnalysisData = JsonConvert.SerializeObject(dicData);
                         }
-                        vViewAsterixModel.AnalysisData = JsonConvert.SerializeObject(dicData);
                     }
                 }
                 else
