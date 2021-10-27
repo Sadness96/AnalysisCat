@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Asterix\Cat010.cs" />
     <Compile Include="Asterix\Cat020.cs" />
     <Compile Include="Asterix\Cat021.cs" />
     <Compile Include="Asterix\Cat062.cs" />

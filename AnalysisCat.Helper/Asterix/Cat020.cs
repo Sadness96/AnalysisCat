@@ -94,8 +94,8 @@ namespace AnalysisCat.Helper.Asterix
                 string xCoordinate16 = byteData[0].ToString("X2") + byteData[1].ToString("X2") + byteData[2].ToString("X2") + byteData[3].ToString("X2");
                 string yCoordinate16 = byteData[4].ToString("X2") + byteData[5].ToString("X2") + byteData[6].ToString("X2") + byteData[7].ToString("X2");
                 // 10进制计算规则（xCoordinate16 * 180 /2^25）
-                relDataArray[0] = double.Parse(Convert.ToInt32(xCoordinate16, 16).ToString()) * 180 / 33554432;
-                relDataArray[1] = double.Parse(Convert.ToInt32(yCoordinate16, 16).ToString()) * 180 / 33554432;
+                relDataArray[0] = double.Parse(Convert.ToInt32(xCoordinate16, 16).ToString()) * 180 / Math.Pow(2, 25);
+                relDataArray[1] = double.Parse(Convert.ToInt32(yCoordinate16, 16).ToString()) * 180 / Math.Pow(2, 25);
                 return relDataArray;
             }
             return null;

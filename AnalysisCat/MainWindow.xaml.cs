@@ -40,7 +40,7 @@ namespace AnalysisCat
             stringBuilder.Append("\r\n");
             stringBuilder.Append("15 00 5b ff 9f bb 5b c3 22 16 82 00 0e 55 02 a8 b0 d7 13 f1 b1 54 fa 1b 09 f8 d8 f2 2a 7d 0d cd a8 b0 5d 78 09 e3 a8 b0 d7 2b a2 5e d1 a8 b0 5d 2e c8 41 f6 0f 01 01 a0 02 07 fd 03 6c 00 01 3d 06 9a 9e fd a8 b0 d8 0d 33 b3 e3 7d 60 00 00 aa 7d 81 c0 00 00 00 00 00 00 00 00");
             stringBuilder.Append("\r\n");
-            stringBuilder.Append("0A 00 33 EF BF BD 3F 31 EF BF BD 16 00 01 25 03 00 1A EF BF BD 7B 10 1A EF BF BD 06 50 EE B9 BA 0B 79 18 37 07 EF BF BD 00 00 EF BF BD EF BF BD 3A 00 3B");
+            stringBuilder.Append("0A 00 33 FB 3F 31 80 16 00 01 25 03 00 07 07 F4 10 19 CD F4 50 EF 12 EF 0C 4A 15 DC 0C AA 00 04 00 78 08 3C 00 0D 36 B9 D7 0D 60 FF FB 00 02 00 00 00 00");
             TBAsterixData.Text = stringBuilder.ToString();
         }
 
