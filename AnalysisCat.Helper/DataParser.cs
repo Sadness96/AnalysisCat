@@ -46,7 +46,7 @@ namespace AnalysisCat.Helper
             if (data.Length >= 10)
             {
                 var dataStart = data.Substring(0, 2);
-                if (listCat16X.Contains(dataStart))
+                if (listCat16X.Contains(dataStart.ToUpper()))
                 {
                     return true;
                 }
