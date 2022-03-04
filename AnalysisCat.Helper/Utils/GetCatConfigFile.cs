@@ -78,7 +78,10 @@ namespace AnalysisCat.Helper.Utils
                     _dicConfigCatFileT = new Dictionary<CatType, List<CatConfigFileModel>>();
                     foreach (var item in DicConfigCatFile)
                     {
-                        _dicConfigCatFileT.Add(item.Key, DataProcessing.ConvertToList<CatConfigFileModel>(item.Value));
+                        if (item.Value != null)
+                        {
+                            _dicConfigCatFileT.Add(item.Key, DataProcessing.ConvertToList<CatConfigFileModel>(item.Value));
+                        }
                     }
                 }
                 return _dicConfigCatFileT;
