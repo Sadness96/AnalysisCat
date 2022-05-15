@@ -69,10 +69,13 @@ namespace AnalysisCat.Helper.Asterix
                 flno2BinaryStr += strCharArray[i] + "";
                 if ((i + 1) % 6 == 0)
                 {
-                    string flightNumberValue = Constants.flightNumberMap[flno2BinaryStr];
-                    if (!string.IsNullOrEmpty(flightNumberValue))
+                    if (Constants.flightNumberMap.ContainsKey(flno2BinaryStr))
                     {
-                        result += flightNumberValue;
+                        string flightNumberValue = Constants.flightNumberMap[flno2BinaryStr];
+                        if (!string.IsNullOrEmpty(flightNumberValue))
+                        {
+                            result += flightNumberValue;
+                        }
                     }
                     flno2BinaryStr = "";
                 }
