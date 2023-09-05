@@ -4,6 +4,9 @@ https://www.eurocontrol.int/sites/default/files/service/content/documents/nm/ast
 Cat020pt14ed19.xlsx
 https://www.eurocontrol.int/sites/default/files/2019-06/cat020-asterix-mlt-messages-part-14.pdf
 
+Cat021p12ed026.xlsx
+2005年发布的版本，官网已不再显示
+
 Cat021pt12ed24.xlsx
 https://www.eurocontrol.int/sites/default/files/content/documents/nm/asterix/20150615-asterix-adsbtr-cat021-part12-v2.4.pdf
 
