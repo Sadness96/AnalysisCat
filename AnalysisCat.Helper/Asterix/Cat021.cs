@@ -206,7 +206,7 @@ namespace AnalysisCat.Helper.Asterix
             if (value41 == 1)
             {
                 char value42 = (char)value4;
-                res += value42; ;
+                res += value42;
             }
             else
             {
